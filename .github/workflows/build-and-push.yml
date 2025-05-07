@@ -27,3 +27,8 @@ jobs:
           context: .
           push: true
           tags: smartshader/helloworld:latest
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.description=$(cat README.md)
