@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -12,6 +13,7 @@ import (
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", hello)
+	mux.HandleFunc("/rolldice", rolldice)
 
 	mux.Handle("/metrics", promhttp.Handler())
 
@@ -31,4 +33,10 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Hello, World!\n")
 	fmt.Fprintf(w, "Hostname: %s\n", host)
+}
+
+func rolldice(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Received request: %s %s\n", r.Method, r.URL.Path)
+	roll := 1 + rand.Intn(6)
+	fmt.Fprintf(w, "Rolled a dice: %d\n", roll)
 }
